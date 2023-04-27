@@ -64,6 +64,31 @@ public class EmployeeController {
         return mv;
     }
 
+    @GetMapping("/modify")
+    public ModelAndView modify(int empid){
+        ModelAndView mv = new ModelAndView();
+
+        mv.addObject("emp",empsrv.readOneEmployee(empid)); //empsrv.readOneEmployee(empid) 가 참이면(변경된다면) emp다
+
+        mv.setViewName("empmodify");
+        return mv;
+    }
+
+    @PostMapping("/modify")
+    public ModelAndView modifyok(Employee emp){
+        ModelAndView mv= new ModelAndView();
+        String view ="empfail";
+
+        if (empsrv.modifyEmployee(emp)){
+            view = "redired:/empview?empid="+emp.getEmpid();
+        }
+        mv.setViewName(view);
+        return mv;
+
+    }
+
+
+
     @GetMapping("/remove")
     public String remove(@RequestParam int empid) {
 
